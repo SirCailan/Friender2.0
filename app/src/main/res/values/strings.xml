@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Friender</string>
+    <string name="app_name_uppercase">FRIENDER</string>
+    <string name="friends_button_text">My Friends</string>
+    <string name="backpress_text">Press back again to exit app</string>
+
+    <string name="greeting_fragment_befriend">Hello! This is the Befriend fragment.</string>
+    <string name="greeting_fragment_friends">Hello! This is the Friends fragment.</string>
+    <string name="greeting_fragment_details">Hello! This is the Details fragment.</string>
+
+</resources>
