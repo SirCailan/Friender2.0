@@ -25,9 +25,8 @@ data class Profile(
 
     @Embedded
     val address: Location,
-
-    val imageUrl: String,
-    val friend: Boolean = false
+    var imageUrl: String = "",
+    var friend: Boolean = false
 )
 
 data class Occupation(

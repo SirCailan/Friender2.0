@@ -5,6 +5,7 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.beust.klaxon.Klaxon
 import com.example.friender2.FrienderApplication
+import com.example.friender2.Utils
 import com.example.friender2.database.AppDatabase
 import com.example.friender2.database.Profile
 import com.example.friender2.randomProfileUrl
@@ -17,43 +18,44 @@ class ProfileRepository {
     private val profileDao = AppDatabase.getDatabase(appContext).getDao()
     private val requestQueue = Volley.newRequestQueue(appContext)
 
-    fun fetchRandomProfile(callback: (Boolean, Int) -> Unit) {
+    fun fetchRandomProfile(callback: (Profile?, Int) -> Unit) {
         val fetchRequest = StringRequest(
             Request.Method.GET,
             randomProfileUrl,
             { response ->
                 val profile = Klaxon().parse<Profile>(response)
 
-                if (profile != null) {
-                    saveCurrentViewedProfile(profile)
-                    callback(true, 200)
-                } else {
-                    callback(false, 500)
-                }
+                callback(profile, 200)
             },
             { error ->
                 val errorCode = error.networkResponse.statusCode
-                callback(false, errorCode)
+                callback(null, errorCode)
             }
         )
 
         requestQueue.add(fetchRequest)
     }
 
-    private fun saveCurrentViewedProfile(profile: Profile) {
+    fun saveCurrentViewedProfile(profile: Profile) {
         CoroutineScope(Dispatchers.IO).launch {
             profileDao.deleteRejected()
             profileDao.saveProfile(profile)
         }
     }
 
-    fun saveViewedAsFriend() {
+    fun fetchLatestProfile(callback: (Profile?) -> Unit) {
         CoroutineScope(Dispatchers.IO).launch {
-            profileDao.addFriend()
+            callback(profileDao.getViewedProfile())
         }
     }
 
-    fun fetchAllFriends(callback: (List<Profile>) -> Unit) {
+    fun saveLatestAsFriend() {
+        CoroutineScope(Dispatchers.IO).launch {
+            profileDao.addAsFriend()
+        }
+    }
+
+    fun fetchFriends(callback: (List<Profile>) -> Unit) {
         CoroutineScope(Dispatchers.IO).launch {
             callback (profileDao.getAllFriends())
         }

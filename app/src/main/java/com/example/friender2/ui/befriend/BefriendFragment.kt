@@ -9,6 +9,8 @@ import android.widget.*
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.friender2.R
+import com.example.friender2.Utils
+import com.squareup.picasso.Picasso
 
 class BefriendFragment : Fragment() {
     val viewModel: BefriendViewModel by viewModels()
@@ -28,6 +30,7 @@ class BefriendFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel.getProfile()
     }
 
     override fun onCreateView(
@@ -44,8 +47,6 @@ class BefriendFragment : Fragment() {
         bindButtons(view)
 
         setListeners()
-
-        viewModel.getNewProfile()
     }
 
     private fun bindButtons(view: View) {
@@ -89,7 +90,19 @@ class BefriendFragment : Fragment() {
         }
 
         viewModel.viewedProfile.observe(viewLifecycleOwner) { profile ->
-            //Switches out viewed profile data when it changes.
+            if (Utils.isMale(profile.gender)) {
+                profileGender.setImageResource(R.drawable.ic_male)
+            } else {
+                profileGender.setImageResource(R.drawable.ic_female)
+            } // This sets the gender icon for the profile based on their gender.
+
+            Picasso.get().load(profile.imageUrl).into(profileImage)
+            //This loads the image on the URL into the ImageView.
+
+            profileAge.text = Utils.getAge(profile.birthDate)
+            profileName.text = Utils.getFullName(profile.firstName, profile.surname)
+            profileLocation.text = Utils.getPlaceText(profile.address)
+            profileOccupation.text = Utils.getEmploymentText(profile.employment)
         }
     }
 }

@@ -1,5 +1,8 @@
 package com.example.friender2
 
+import android.content.Context
+import android.graphics.drawable.Drawable
+import androidx.core.content.ContextCompat
 import com.example.friender2.database.Location
 import com.example.friender2.database.Occupation
 import java.util.*
@@ -18,6 +21,14 @@ object Utils {
 
     fun getFullName(firstName: String, lastName: String): String {
         return "$firstName $lastName"
+    }
+
+    fun getGenderIcon(context: Context, gender: String): Drawable? {
+        return if (Utils.isMale(gender)) {
+            ContextCompat.getDrawable(context, R.drawable.ic_male)
+        } else {
+            ContextCompat.getDrawable(context, R.drawable.ic_female)
+        }
     }
 
     fun isMale(gender: String): Boolean {
@@ -54,10 +65,18 @@ object Utils {
         return "${address.city}, ${address.country}"
     }
 
-    fun getProfilePictureUrl(gender: String): String {
+    fun getProfilePictureUrl(isMale: Boolean): String {
         val number = (0..99).random()
-        val isMale = (0..1).random()
 
-        return "https://randomuser.me/api/portraits/${if (isMale == 0) "men" else "women"}/$number.jpg"
+        val genderString = when (isMale) {
+            true -> {
+                "men"
+            }
+            false -> {
+                "women"
+            }
+        }
+
+        return "https://randomuser.me/api/portraits/$genderString/$number.jpg"
     }
 }
