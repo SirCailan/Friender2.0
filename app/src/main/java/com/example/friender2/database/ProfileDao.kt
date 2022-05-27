@@ -15,6 +15,9 @@ interface ProfileDao {
     @Query("SELECT * FROM friends WHERE friend = 1" )
     fun getAllFriends(): List<Profile>
 
+    @Query("SELECT * FROM friends WHERE id = :id")
+    fun getProfile(id: Long): Profile
+
     @Query("DELETE FROM friends WHERE id = :id")
     fun delete(id: Long)
 
@@ -23,5 +26,4 @@ interface ProfileDao {
 
     @Query("UPDATE friends SET friend = 1 WHERE friend = 0")
     fun addAsFriend()
-
 }

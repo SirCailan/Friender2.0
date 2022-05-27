@@ -7,36 +7,38 @@ import com.beust.klaxon.Json
 
 @Entity(tableName = "friends")
 data class Profile(
-    @PrimaryKey val id: Long,
+    @PrimaryKey
+    val id: Long,
 
     @Json(name = "first_name")
-    val firstName: String,
+    val firstName: String = "Missing_Firstname",
 
     @Json(name = "last_name")
-    val surname: String,
-    val email: String,
-    val gender: String,
+    val surname: String = "Missing_Surname",
+    val email: String = "Missing_Email",
+    val gender: String = "Missing_Gender",
 
     @Json(name = "date_of_birth")
-    val birthDate: String,
+    val birthDate: String = "Missing_Birthdate",
 
     @Embedded
-    val employment: Occupation,
+    val employment: Occupation = Occupation(),
 
     @Embedded
-    val address: Location,
-    var imageUrl: String = "",
+    val address: Location = Location(),
+
+    var imageUrl: String = "Missing_Image",
     var friend: Boolean = false
 )
 
 data class Occupation(
-    val title: String,
+    val title: String = "Missing_Title",
 
     @Json(name = "key_skill")
-    val keySkill: String
+    val keySkill: String = "Missing_Keyskill"
 )
 
 data class Location(
-    val city: String,
-    val country: String
+    val city: String = "Missing_City",
+    val country: String = "Missing_Country"
 )

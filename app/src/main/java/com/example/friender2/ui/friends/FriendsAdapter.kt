@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.friender2.R
 import com.example.friender2.Utils
@@ -15,7 +16,8 @@ import com.squareup.picasso.Picasso
 
 class FriendsAdapter(
     var dataSet: List<Profile>,
-    val crossClicked: ((Profile) -> Unit)? = null
+    val removeClicked: ((Profile) -> Unit),
+    val cardClicked: ((Long) -> Unit)
 ) :
     RecyclerView.Adapter<FriendsAdapter.FriendsViewHolder>() {
 
@@ -24,10 +26,11 @@ class FriendsAdapter(
         val friendName: TextView = view.findViewById(R.id.friend_name_text)
         val friendLocation: TextView = view.findViewById(R.id.friend_place_text)
         val removeButton: ImageButton = view.findViewById(R.id.friend_cross_button)
+        val profileCard: CardView = view.findViewById(R.id.friend_card)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FriendsViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.friends_card, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.friends_list_card, parent, false)
 
         view.layoutParams = ViewGroup.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT,
@@ -46,9 +49,12 @@ class FriendsAdapter(
         holder.friendLocation.text = Utils.getPlaceText(profile.address)
 
         holder.removeButton.setOnClickListener {
-            //TODO: "Delete friend..."
             removeItem(position)
-            crossClicked
+            removeClicked.invoke(profile)
+        }
+
+        holder.profileCard.setOnClickListener {
+            cardClicked.invoke(profile.id)
         }
     }
 

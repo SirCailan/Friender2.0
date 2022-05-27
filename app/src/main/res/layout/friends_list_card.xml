@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/friend_card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="16dp"
     android:background="@color/white"
-    android:padding="16dp">
+    app:cardCornerRadius="5dp"
+    app:cardUseCompatPadding="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/friend_click_wrapper"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="5dp"
         app:layout_constraintEnd_toStartOf="@id/friend_cross_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -50,19 +52,18 @@
             app:layout_constraintTop_toBottomOf="@id/friend_name_text"
             tools:text="Sted / Sted" />
 
+        <ImageButton
+            android:id="@+id/friend_cross_button"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:background="@color/transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_twotone_circle_cross"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <ImageButton
-        android:id="@+id/friend_cross_button"
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:background="@color/transparent"
-        android:paddingStart="10dp"
-        android:paddingEnd="0dp"
-        android:scaleType="fitCenter"
-        android:src="@drawable/ic_twotone_circle_cross"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

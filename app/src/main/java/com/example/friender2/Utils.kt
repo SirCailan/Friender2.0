@@ -5,15 +5,23 @@ import android.graphics.drawable.Drawable
 import androidx.core.content.ContextCompat
 import com.example.friender2.database.Location
 import com.example.friender2.database.Occupation
+import java.time.LocalDate
+import java.time.Period
 import java.util.*
 
 object Utils {
-    fun getAge(dateOfBirth: String): String {
-        val thisYear = Calendar.getInstance().get(Calendar.YEAR)
-
+    //You can provide a date with which to compare the birthdate to.
+    //If not, it will default to today's date.
+    fun getAge(dateOfBirth: String, compareDate: LocalDate = LocalDate.now()): String {
         return try {
-            val year = dateOfBirth.substring(0, 4).toInt()
-            (thisYear - year).toString()
+            val birthDates = dateOfBirth.split('-').map {
+                it.toInt()
+            }
+
+            Period.between(
+                LocalDate.of(birthDates[0], birthDates[1], birthDates[2]),
+                compareDate
+            ).years.toString()
         } catch (e: Exception) {
             "-"
         }
@@ -21,14 +29,6 @@ object Utils {
 
     fun getFullName(firstName: String, lastName: String): String {
         return "$firstName $lastName"
-    }
-
-    fun getGenderIcon(context: Context, gender: String): Drawable? {
-        return if (Utils.isMale(gender)) {
-            ContextCompat.getDrawable(context, R.drawable.ic_male)
-        } else {
-            ContextCompat.getDrawable(context, R.drawable.ic_female)
-        }
     }
 
     fun isMale(gender: String): Boolean {
@@ -49,13 +49,11 @@ object Utils {
                 false
             }
         }
-        //This is not accurate, but it is at least streamlined now.
     }
 
     fun getEmploymentText(employment: Occupation?): String {
         return if (employment == null) {
-            "Hobo..."
-            //TODO: This is very unkind. Change this.
+            "No occupation"
         } else {
             "Role: ${employment.title}\nSkill: ${employment.keySkill}"
         }
@@ -65,8 +63,8 @@ object Utils {
         return "${address.city}, ${address.country}"
     }
 
-    fun getProfilePictureUrl(isMale: Boolean): String {
-        val number = (0..99).random()
+    fun getProfilePictureUrl(isMale: Boolean, staticNumber: Int? = null): String {
+        val imageNumber = staticNumber ?: (0..99).random()
 
         val genderString = when (isMale) {
             true -> {
@@ -77,6 +75,6 @@ object Utils {
             }
         }
 
-        return "https://randomuser.me/api/portraits/$genderString/$number.jpg"
+        return "https://randomuser.me/api/portraits/$genderString/$imageNumber.jpg"
     }
 }

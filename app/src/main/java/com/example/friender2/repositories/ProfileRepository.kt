@@ -66,4 +66,10 @@ class ProfileRepository {
             profileDao.delete(id)
         }
     }
+
+    fun fetchProfile(id: Long, callback: (Profile?) -> Unit) {
+        CoroutineScope(Dispatchers.IO).launch {
+            callback (profileDao.getProfile(id))
+        }
+    }
 }

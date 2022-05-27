@@ -27,5 +27,9 @@
         android:id="@+id/detailsFragment"
         android:name="com.example.friender2.ui.details.DetailsFragment"
         android:label="fragment_details"
-        tools:layout="@layout/fragment_details" />
+        tools:layout="@layout/fragment_details" >
+        <argument
+            android:name="profileId"
+            app:argType="long" />
+    </fragment>
 </navigation>

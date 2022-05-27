@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.friender2.R
 
 class FriendsFragment : Fragment() {
-    val viewModel: FriendsViewModel by viewModels()
+    private val viewModel: FriendsViewModel by viewModels()
 
     lateinit var recyclerView: RecyclerView
     lateinit var layoutManager: LinearLayoutManager
@@ -21,10 +21,11 @@ class FriendsFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        adapter = FriendsAdapter(listOf()) { profile ->
-            viewModel.removeFriend(profile)
-        }
-        layoutManager = LinearLayoutManager(requireContext())
+        adapter = FriendsAdapter(listOf(), { profileToDelete ->
+            viewModel.removeFriend(profileToDelete)
+        }, { clickedProfileId ->
+            findNavController().navigate(FriendsFragmentDirections.actionFriendsFragmentToDetailsFragment(clickedProfileId))
+        })
 
         viewModel.getFriendsList()
     }
@@ -44,6 +45,8 @@ class FriendsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         recyclerView = view.findViewById(R.id.friends_recyclerview)
+
+        layoutManager = LinearLayoutManager(requireContext())
 
         recyclerView.layoutManager = layoutManager
         recyclerView.adapter = adapter

@@ -13,7 +13,7 @@ import com.example.friender2.Utils
 import com.squareup.picasso.Picasso
 
 class BefriendFragment : Fragment() {
-    val viewModel: BefriendViewModel by viewModels()
+    private val viewModel: BefriendViewModel by viewModels()
 
     lateinit var profileGender: ImageView
     lateinit var profileImage: ImageView

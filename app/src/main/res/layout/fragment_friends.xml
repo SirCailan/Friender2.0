@@ -31,5 +31,5 @@
         android:layout_height="0dp"
         app:layout_constraintTop_toBottomOf="@+id/header_bar"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:listitem="@layout/friends_card"/>
+        tools:listitem="@layout/friends_list_card"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
