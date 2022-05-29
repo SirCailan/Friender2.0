@@ -11,6 +11,7 @@ class BefriendViewModel : ViewModel() {
 
     var pleaseWait: MutableLiveData<Boolean> = MutableLiveData()
     var viewedProfile: MutableLiveData<Profile> = MutableLiveData()
+    var viewRetryButton: MutableLiveData<Boolean> = MutableLiveData()
 
     fun rejectFriend() {
         getNewProfile()

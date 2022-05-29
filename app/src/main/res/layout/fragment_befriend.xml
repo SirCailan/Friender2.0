@@ -112,6 +112,16 @@
             android:layout_height="match_parent"
             android:background="@color/white"
             android:visibility="gone" />
+
+        <Button
+            android:id="@+id/profile_retry_button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:backgroundTint="@color/white"
+            android:text="@string/retry_button_text"
+            android:visibility="gone"
+            android:textColor="@color/black"
+            android:textSize="50sp"/>
     </androidx.cardview.widget.CardView>
 
     <ImageButton

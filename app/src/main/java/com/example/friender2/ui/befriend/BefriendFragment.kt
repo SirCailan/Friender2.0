@@ -27,6 +27,7 @@ class BefriendFragment : Fragment() {
     lateinit var acceptButton: ImageButton
 
     lateinit var friendsButton: Button
+    lateinit var retryButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,6 +63,7 @@ class BefriendFragment : Fragment() {
         acceptButton = view.findViewById(R.id.accept_button)
 
         friendsButton = view.findViewById(R.id.my_friends_button)
+        retryButton = view.findViewById(R.id.profile_retry_button)
     }
 
     private fun setListeners() {
@@ -103,6 +105,18 @@ class BefriendFragment : Fragment() {
             profileName.text = Utils.getFullName(profile.firstName, profile.surname)
             profileLocation.text = Utils.getPlaceText(profile.address)
             profileOccupation.text = Utils.getEmploymentText(profile.employment)
+        }
+
+        viewModel.viewRetryButton.observe(viewLifecycleOwner) { viewRetryButton ->
+            if (viewRetryButton) {
+                retryButton.visibility = View.VISIBLE
+            } else {
+                retryButton.visibility = View.GONE
+            }
+        }
+
+        retryButton.setOnClickListener {
+            viewModel.getProfile()
         }
     }
 }

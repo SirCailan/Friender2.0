@@ -21,7 +21,7 @@ class FriendsFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        adapter = FriendsAdapter(listOf(), { profileToDelete ->
+        adapter = FriendsAdapter({ profileToDelete ->
             viewModel.removeFriend(profileToDelete)
         }, { clickedProfileId ->
             findNavController().navigate(FriendsFragmentDirections.actionFriendsFragmentToDetailsFragment(clickedProfileId))

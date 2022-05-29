@@ -15,9 +15,9 @@ import com.example.friender2.database.Profile
 import com.squareup.picasso.Picasso
 
 class FriendsAdapter(
-    var dataSet: List<Profile>,
     val removeClicked: ((Profile) -> Unit),
-    val cardClicked: ((Long) -> Unit)
+    val cardClicked: ((Long) -> Unit),
+    var dataSet: List<Profile> = listOf()
 ) :
     RecyclerView.Adapter<FriendsAdapter.FriendsViewHolder>() {
 

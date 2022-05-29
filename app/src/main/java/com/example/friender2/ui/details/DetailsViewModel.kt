@@ -15,9 +15,8 @@ class DetailsViewModel : ViewModel() {
         pleaseWait.postValue(true)
 
         repo.fetchProfile(profileId) { profile ->
-            if (profile != null) {
-                viewedProfile.postValue(profile)
-            } else {
+            profile?.let {
+                viewedProfile.postValue(it)
             }
             pleaseWait.postValue(false)
         }
