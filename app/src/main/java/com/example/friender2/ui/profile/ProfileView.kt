@@ -10,7 +10,7 @@ import com.example.friender2.database.Profile
 import com.squareup.picasso.Picasso
 
 //This class saves us from duplicating code wherever we need to use the profile view in a fragment.
-//REMEMBER TO USE THE bindViews FUNCTION IN THE FRAGMENT'S onViewCreated !
+//REMEMBER TO BIND VIEWS BEFORE ANYTHING ELSE !!!
 class ProfileView {
     //Images
     private lateinit var profileGender: ImageView
