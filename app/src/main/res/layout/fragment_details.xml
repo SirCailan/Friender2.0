@@ -5,12 +5,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/orange"
-    tools:context=".ui.details.DetailsFragment">
+    tools:context=".ui.friends.DetailsFragment">
 
     <include
-        android:id="@+id/profile_card"
+        android:id="@+id/details_profile_card"
         layout="@layout/profile_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="30dp"/>
+        android:layout_margin="30dp" />
+
+    <Button
+        android:id="@+id/details_delete_friend_button"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_margin="16dp"
+        android:backgroundTint="@color/red"
+        android:textAllCaps="false"
+        android:textSize="20sp"
+        android:text="@string/delete_button_text" />
 </FrameLayout>
