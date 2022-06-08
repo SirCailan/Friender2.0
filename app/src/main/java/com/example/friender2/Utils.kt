@@ -63,8 +63,8 @@ object Utils {
         return "${address.city}, ${address.country}"
     }
 
-    fun getProfilePictureUrl(isMale: Boolean, staticNumber: Int? = null): String {
-        val imageNumber = staticNumber ?: (0..99).random()
+    fun getProfilePictureUrl(isMale: Boolean): String {
+        val imageNumber = (0..99).random()
 
         val genderString = when (isMale) {
             true -> {
