@@ -1,18 +1,12 @@
 package com.example.friender2
 
-import android.content.Context
-import android.graphics.drawable.Drawable
-import androidx.core.content.ContextCompat
 import com.example.friender2.database.Location
 import com.example.friender2.database.Occupation
 import java.time.LocalDate
 import java.time.Period
-import java.util.*
 
 object Utils {
-    //You can provide a date with which to compare the birthdate to.
-    //If not, it will default to today's date.
-    fun getAge(dateOfBirth: String, compareDate: LocalDate = LocalDate.now()): String {
+    fun getAge(dateOfBirth: String): String {
         return try {
             val birthDates = dateOfBirth.split('-').map {
                 it.toInt()
@@ -20,7 +14,7 @@ object Utils {
 
             Period.between(
                 LocalDate.of(birthDates[0], birthDates[1], birthDates[2]),
-                compareDate
+                LocalDate.now()
             ).years.toString()
         } catch (e: Exception) {
             "-"
