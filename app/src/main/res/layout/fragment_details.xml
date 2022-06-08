@@ -7,90 +7,10 @@
     android:background="@color/orange"
     tools:context=".ui.details.DetailsFragment">
 
-
-    <androidx.cardview.widget.CardView
+    <include
         android:id="@+id/profile_card"
+        layout="@layout/profile_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:layout_margin="30dp"
-        app:cardCornerRadius="16dp">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="16dp">
-
-            <ImageView
-                android:id="@+id/profile_gender_icon"
-                android:layout_width="45dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:adjustViewBounds="true"
-                tools:src="@drawable/ic_male" />
-
-            <ImageView
-                android:id="@+id/profile_image"
-                android:layout_width="wrap_content"
-                android:layout_height="100dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:adjustViewBounds="true"
-                android:src="@drawable/logo" />
-
-            <TextView
-                android:id="@+id/profile_age_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:textColor="@color/blue"
-                android:textSize="30sp"
-                android:textStyle="bold|italic"
-                tools:text="68" />
-
-            <TextView
-                android:id="@+id/profile_name_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/profile_image"
-                android:layout_marginTop="8dp"
-                android:gravity="center"
-                android:textColor="@color/black"
-                android:textSize="25sp"
-                tools:text="Fornavn Etternavn" />
-
-            <TextView
-                android:id="@+id/profile_place_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/profile_name_text"
-                android:layout_marginTop="8dp"
-                android:gravity="center"
-                android:textColor="@color/black"
-                android:textSize="15sp"
-                tools:text="Oslo, Norway" />
-
-            <TextView
-                android:id="@+id/profile_occupation_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/profile_place_text"
-                android:layout_marginTop="16dp"
-                android:background="@android:color/darker_gray"
-                android:padding="8dp"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                tools:text="Role: Corporate Developer\nSkill: Confidence" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <ProgressBar
-            android:id="@+id/profile_loader"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white"
-            android:visibility="gone" />
-    </androidx.cardview.widget.CardView>
+        android:layout_margin="30dp"/>
 </FrameLayout>
