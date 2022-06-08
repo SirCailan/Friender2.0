@@ -1,5 +1,6 @@
 package com.example.friender2.ui.befriend
 
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.friender2.Utils
@@ -29,7 +30,7 @@ class BefriendViewModel : ViewModel() {
     private fun getNewProfile() {
         pleaseWait.postValue(true)
 
-        repo.fetchRandomProfile { profile, statusCode ->
+        repo.fetchRandomProfile { profile ->
             if (profile != null) {
                 profile.imageUrl = Utils.getProfilePictureUrl(Utils.isMale(profile.gender))
 
@@ -37,7 +38,7 @@ class BefriendViewModel : ViewModel() {
 
                 saveViewedProfile(profile)
             } else {
-                //TODO: Show error to viewer. Display refresh-button.
+                viewRetryButton.postValue(true)
             }
 
             pleaseWait.postValue(false)
@@ -46,6 +47,7 @@ class BefriendViewModel : ViewModel() {
 
     fun getProfile() {
         pleaseWait.postValue(true)
+        viewRetryButton.postValue(false)
 
         CoroutineScope(Dispatchers.IO).launch {
             repo.fetchLatestProfile { profile ->
@@ -70,5 +72,4 @@ class BefriendViewModel : ViewModel() {
             repo.saveCurrentViewedProfile(viewedProfile)
         }
     }
-
 }
