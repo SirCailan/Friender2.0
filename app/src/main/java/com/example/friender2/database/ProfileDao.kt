@@ -13,7 +13,7 @@ interface ProfileDao {
     fun getViewedProfile(): Profile
 
     @Query("SELECT * FROM friends WHERE friend = 1" )
-    fun getAllFriends(): List<Profile>
+    fun getAllFriends(): MutableList<Profile>
 
     @Query("SELECT * FROM friends WHERE id = :id")
     fun getProfile(id: Long): Profile
