@@ -8,11 +8,12 @@ import java.time.LocalDate
 
 class UtilsTest {
     @Test
-    fun `getAge - 25 years when birthdate is 1997-02-11`() {
+    fun `getAge - Birthdate is 1997-02-11`() {
         val birthDate: String = "1997-02-11"
-        val compareDate: LocalDate = LocalDate.of(2022, 5, 26)
 
-        assertEquals("25", Utils.getAge(birthDate, compareDate))
+        val age = Utils.getAge(birthDate)
+
+        assertNotEquals("-", age)
     }
 
     @Test
@@ -23,11 +24,11 @@ class UtilsTest {
     }
 
     @Test
-    fun `getAge - Return zero if birth date is in the future`() {
-        val birthDate: String = "2023-02-13"
-        val compareDate: LocalDate = LocalDate.of(2022, 5, 26)
+    fun `getAge - Return negative number if birth date is in the future`() {
+        val yearsInFuture: Long = 4
+        val birthDate: String = LocalDate.now().plusYears(yearsInFuture).toString()
 
-        assertEquals("0", Utils.getAge(birthDate, compareDate))
+        assertEquals("-$yearsInFuture", Utils.getAge(birthDate))
     }
 
     @Test
@@ -131,6 +132,13 @@ class UtilsTest {
         val employment: Occupation = Occupation()
 
         assertEquals("Role: Missing_Title\nSkill: Missing_Keyskill", Utils.getEmploymentText(employment))
+    }
+
+    @Test
+    fun `getEmploymentText - Occupationtext is null`() {
+        val employment: Occupation? = null
+
+        assertEquals("No occupation", Utils.getEmploymentText(employment))
     }
 
     @Test
