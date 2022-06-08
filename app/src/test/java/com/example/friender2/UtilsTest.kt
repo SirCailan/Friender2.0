@@ -2,8 +2,7 @@ package com.example.friender2
 
 import com.example.friender2.database.Location
 import com.example.friender2.database.Occupation
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertFalse
+import org.junit.Assert.*
 import org.junit.Test
 import java.time.LocalDate
 
@@ -164,18 +163,17 @@ class UtilsTest {
 
     @Test
     fun `getProfilePictureUrl - Correct URL when male`() {
-        val url: String = Utils.getProfilePictureUrl(true, 0)
+        val url: String = Utils.getProfilePictureUrl(true)
+        val regex = "https://randomuser.me/api/portraits/men/".toRegex()
 
-        assertEquals("https://randomuser.me/api/portraits/men/0.jpg", url)
+        assertTrue(regex.containsMatchIn(url))
     }
 
     @Test
     fun `getProfilePictureUrl - Correct URL when female`() {
-        val url: String = Utils.getProfilePictureUrl(false, 0)
+        val url: String = Utils.getProfilePictureUrl(false)
+        val regex = "https://randomuser.me/api/portraits/women/".toRegex()
 
-        assertEquals("https://randomuser.me/api/portraits/women/0.jpg", url)
+        assertTrue(regex.containsMatchIn(url))
     }
-
-    //I don't know how I would test getProfilePictureUrl without providing a number as a parameter.
-    //So I won't.
 }
