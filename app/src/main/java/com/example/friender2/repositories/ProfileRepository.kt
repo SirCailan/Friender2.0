@@ -12,24 +12,24 @@ import com.example.friender2.randomProfileUrl
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.lang.NullPointerException
 
 class ProfileRepository {
     private val appContext = FrienderApplication.application.applicationContext
     private val profileDao = AppDatabase.getDatabase(appContext).getDao()
     private val requestQueue = Volley.newRequestQueue(appContext)
 
-    fun fetchRandomProfile(callback: (Profile?, Int) -> Unit) {
+    fun fetchRandomProfile(callback: (Profile?) -> Unit) {
         val fetchRequest = StringRequest(
             Request.Method.GET,
             randomProfileUrl,
             { response ->
                 val profile = Klaxon().parse<Profile>(response)
 
-                callback(profile, 200)
+                callback(profile)
             },
             { error ->
-                val errorCode = error.networkResponse.statusCode
-                callback(null, errorCode)
+                callback(null)
             }
         )
 
@@ -49,7 +49,7 @@ class ProfileRepository {
         profileDao.addAsFriend()
     }
 
-    fun fetchFriends(callback: (List<Profile>) -> Unit) {
+    fun fetchFriends(callback: (MutableList<Profile>) -> Unit) {
         callback(profileDao.getAllFriends())
     }
 
@@ -57,7 +57,7 @@ class ProfileRepository {
         profileDao.delete(id)
     }
 
-    fun fetchProfile(id: Long, callback: (Profile?) -> Unit) {
-        callback(profileDao.getProfile(id))
+    fun undoDelete(profile: Profile) {
+        profileDao.saveProfile(profile)
     }
 }
