@@ -4,6 +4,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.friender2.database.Profile
 import com.example.friender2.repositories.ProfileRepository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class DetailsViewModel : ViewModel() {
     private val repo = ProfileRepository()
@@ -14,11 +17,14 @@ class DetailsViewModel : ViewModel() {
     fun getProfile(profileId: Long) {
         pleaseWait.postValue(true)
 
-        repo.fetchProfile(profileId) { profile ->
-            profile?.let {
-                viewedProfile.postValue(it)
+
+        CoroutineScope(Dispatchers.IO).launch {
+            repo.fetchProfile(profileId) { profile ->
+                profile?.let {
+                    viewedProfile.postValue(it)
+                }
+                pleaseWait.postValue(false)
             }
-            pleaseWait.postValue(false)
         }
     }
 }

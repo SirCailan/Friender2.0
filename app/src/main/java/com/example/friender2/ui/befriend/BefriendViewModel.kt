@@ -5,6 +5,9 @@ import androidx.lifecycle.ViewModel
 import com.example.friender2.Utils
 import com.example.friender2.database.Profile
 import com.example.friender2.repositories.ProfileRepository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class BefriendViewModel : ViewModel() {
     private val repo = ProfileRepository()
@@ -32,7 +35,7 @@ class BefriendViewModel : ViewModel() {
 
                 viewedProfile.postValue(profile)
 
-                repo.saveCurrentViewedProfile(profile)
+                saveViewedProfile(profile)
             } else {
                 //TODO: Show error to viewer. Display refresh-button.
             }
@@ -44,18 +47,28 @@ class BefriendViewModel : ViewModel() {
     fun getProfile() {
         pleaseWait.postValue(true)
 
-        repo.fetchLatestProfile { profile ->
-            if (profile != null) {
-                viewedProfile.postValue(profile)
-                pleaseWait.postValue(false)
-            } else {
-                getNewProfile()
+        CoroutineScope(Dispatchers.IO).launch {
+            repo.fetchLatestProfile { profile ->
+                if (profile != null) {
+                    viewedProfile.postValue(profile)
+                    pleaseWait.postValue(false)
+                } else {
+                    getNewProfile()
+                }
             }
         }
     }
 
     private fun addToFriends() {
-        repo.saveLatestAsFriend()
+        CoroutineScope(Dispatchers.IO).launch {
+            repo.saveLatestAsFriend()
+        }
+    }
+
+    private fun saveViewedProfile(viewedProfile: Profile) {
+        CoroutineScope(Dispatchers.IO).launch {
+            repo.saveCurrentViewedProfile(viewedProfile)
+        }
     }
 
 }

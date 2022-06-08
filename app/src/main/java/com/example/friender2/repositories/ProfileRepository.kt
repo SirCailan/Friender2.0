@@ -37,39 +37,27 @@ class ProfileRepository {
     }
 
     fun saveCurrentViewedProfile(profile: Profile) {
-        CoroutineScope(Dispatchers.IO).launch {
-            profileDao.deleteRejected()
-            profileDao.saveProfile(profile)
-        }
+        profileDao.deleteRejected()
+        profileDao.saveProfile(profile)
     }
 
     fun fetchLatestProfile(callback: (Profile?) -> Unit) {
-        CoroutineScope(Dispatchers.IO).launch {
-            callback(profileDao.getViewedProfile())
-        }
+        callback(profileDao.getViewedProfile())
     }
 
     fun saveLatestAsFriend() {
-        CoroutineScope(Dispatchers.IO).launch {
-            profileDao.addAsFriend()
-        }
+        profileDao.addAsFriend()
     }
 
     fun fetchFriends(callback: (List<Profile>) -> Unit) {
-        CoroutineScope(Dispatchers.IO).launch {
-            callback (profileDao.getAllFriends())
-        }
+        callback(profileDao.getAllFriends())
     }
 
     fun deleteFriend(id: Long) {
-        CoroutineScope(Dispatchers.IO).launch {
-            profileDao.delete(id)
-        }
+        profileDao.delete(id)
     }
 
     fun fetchProfile(id: Long, callback: (Profile?) -> Unit) {
-        CoroutineScope(Dispatchers.IO).launch {
-            callback (profileDao.getProfile(id))
-        }
+        callback(profileDao.getProfile(id))
     }
 }
