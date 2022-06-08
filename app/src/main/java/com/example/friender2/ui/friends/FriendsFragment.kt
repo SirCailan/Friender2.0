@@ -5,30 +5,37 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.setFragmentResult
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.friender2.R
+import com.example.friender2.database.Profile
 
 class FriendsFragment : Fragment() {
-    private val viewModel: FriendsViewModel by viewModels()
+    private val viewModel: FriendsViewModel by activityViewModels()
 
-    lateinit var recyclerView: RecyclerView
+    //Adapter Components
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var adapter: FriendsAdapter
     lateinit var layoutManager: LinearLayoutManager
-    lateinit var adapter: FriendsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         adapter = FriendsAdapter({ profileToDelete ->
-            viewModel.removeFriend(profileToDelete)
-        }, { clickedProfileId ->
+            setCurrentProfile(profileToDelete)
+            //Saves the profile to delete.
+
+            viewModel.removeFriend()
+        }, { clickedProfile ->
+            setCurrentProfile(clickedProfile)
+            //Saves the clicked profile in the shared ViewModel, for easy retrieval on navigation.
+
             findNavController().navigate(
-                FriendsFragmentDirections.actionFriendsFragmentToDetailsFragment(
-                    clickedProfileId
-                )
-            )
+                FriendsFragmentDirections.actionFriendsFragmentToDetailsFragment()
+            ) //Navigates to the details screen.
         })
         //Instantiated before we get the friends list to ensure that the data is updated.
 
@@ -62,8 +69,12 @@ class FriendsFragment : Fragment() {
     }
 
     private fun setObservers() {
-        viewModel.friendsList.observe(viewLifecycleOwner) { friends ->
-            adapter.updateDataSet(friends)
+        viewModel.friendsList.observe(viewLifecycleOwner) { friendsList ->
+            adapter.updateDataSet(friendsList)
         }
+    }
+
+    private fun setCurrentProfile(profile: Profile) {
+        viewModel.selectedFriend = profile
     }
 }
