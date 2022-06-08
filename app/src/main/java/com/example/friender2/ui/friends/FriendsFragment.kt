@@ -24,19 +24,22 @@ class FriendsFragment : Fragment() {
         adapter = FriendsAdapter({ profileToDelete ->
             viewModel.removeFriend(profileToDelete)
         }, { clickedProfileId ->
-            findNavController().navigate(FriendsFragmentDirections.actionFriendsFragmentToDetailsFragment(clickedProfileId))
+            findNavController().navigate(
+                FriendsFragmentDirections.actionFriendsFragmentToDetailsFragment(
+                    clickedProfileId
+                )
+            )
         })
+        //Instantiated before we get the friends list to ensure that the data is updated.
 
         viewModel.getFriendsList()
+        //Done in onCreate to get list as soon as possible. Done after the adapter, to be safe.
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        setListeners()
-
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_friends, container, false)
     }
@@ -44,7 +47,9 @@ class FriendsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        recyclerView = view.findViewById(R.id.friends_recyclerview)
+        bindViews(view)
+
+        setObservers()
 
         layoutManager = LinearLayoutManager(requireContext())
 
@@ -52,10 +57,13 @@ class FriendsFragment : Fragment() {
         recyclerView.adapter = adapter
     }
 
-    private fun setListeners() {
+    private fun bindViews(view: View) {
+        recyclerView = view.findViewById(R.id.friends_recyclerview)
+    }
+
+    private fun setObservers() {
         viewModel.friendsList.observe(viewLifecycleOwner) { friends ->
             adapter.updateDataSet(friends)
         }
     }
-
 }
