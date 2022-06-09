@@ -1,6 +1,5 @@
 package com.example.friender2.ui.befriend
 
-import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.friender2.Utils
@@ -19,6 +18,7 @@ class BefriendViewModel : ViewModel() {
 
     fun rejectFriend() {
         getNewProfile()
+        //Getting a new profile will override the current viewed profile.
     }
 
     fun acceptFriend() {
@@ -49,6 +49,7 @@ class BefriendViewModel : ViewModel() {
         pleaseWait.postValue(true)
         viewRetryButton.postValue(false)
 
+        //Starts a new thread.
         CoroutineScope(Dispatchers.IO).launch {
             repo.fetchLatestProfile { profile ->
                 if (profile != null) {
@@ -61,15 +62,21 @@ class BefriendViewModel : ViewModel() {
         }
     }
 
-    private fun addToFriends() {
+    private fun saveViewedProfile(viewedProfile: Profile) {
+        //Starts a new thread.
         CoroutineScope(Dispatchers.IO).launch {
-            repo.saveLatestAsFriend()
+            repo.saveCurrentViewedProfile(viewedProfile)
         }
     }
 
-    private fun saveViewedProfile(viewedProfile: Profile) {
-        CoroutineScope(Dispatchers.IO).launch {
-            repo.saveCurrentViewedProfile(viewedProfile)
+    private fun addToFriends() {
+        viewedProfile.value?.let { profileToSave ->
+            profileToSave.friend = true
+
+            //Starts a new thread.
+            CoroutineScope(Dispatchers.IO).launch {
+                repo.saveAsFriend(profileToSave)
+            }
         }
     }
 }

@@ -31,11 +31,9 @@ class DetailsFragment : Fragment() {
 
         bindViews(view)
 
-        viewModel.selectedFriend?.let { selectedFriend ->
-            profileView.changeProfile(selectedFriend)
-        }
-
         setClickListeners()
+
+        viewModel.getSelectedFriend()?.let { profileView.changeProfile(it) }
     }
 
     private fun bindViews(view: View) {

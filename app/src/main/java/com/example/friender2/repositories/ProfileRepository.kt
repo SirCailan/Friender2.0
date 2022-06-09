@@ -5,14 +5,9 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.beust.klaxon.Klaxon
 import com.example.friender2.FrienderApplication
-import com.example.friender2.Utils
 import com.example.friender2.database.AppDatabase
 import com.example.friender2.database.Profile
 import com.example.friender2.randomProfileUrl
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import java.lang.NullPointerException
 
 class ProfileRepository {
     private val appContext = FrienderApplication.application.applicationContext
@@ -28,7 +23,7 @@ class ProfileRepository {
 
                 callback(profile)
             },
-            { error ->
+            { _ ->
                 callback(null)
             }
         )
@@ -38,26 +33,29 @@ class ProfileRepository {
 
     fun saveCurrentViewedProfile(profile: Profile) {
         profileDao.deleteRejected()
+        //Deletes saved profiles that are not marked as friends.
         profileDao.saveProfile(profile)
+        //Saves the new profile. Not marked as friend.
     }
 
     fun fetchLatestProfile(callback: (Profile?) -> Unit) {
         callback(profileDao.getViewedProfile())
+        //Fetches one profile not marked as friend.
+        //There should only be one profile not marked as friend at a time, but the dao limits it anyways.
     }
 
-    fun saveLatestAsFriend() {
-        profileDao.addAsFriend()
+    fun saveAsFriend(profileToSave: Profile) {
+        profileDao.addAsFriend(profileToSave)
+        //Saves specified profile as friend.
     }
 
     fun fetchFriends(callback: (MutableList<Profile>) -> Unit) {
         callback(profileDao.getAllFriends())
+        //Fetches all profiles marked as friends.
     }
 
     fun deleteFriend(id: Long) {
         profileDao.delete(id)
-    }
-
-    fun undoDelete(profile: Profile) {
-        profileDao.saveProfile(profile)
+        //Deletes a profile specified by an id.
     }
 }

@@ -5,6 +5,7 @@
     <string name="backpress_text">Press back again to exit app</string>
     <string name="retry_button_text">Retry</string>
     <string name="delete_button_text">Remove Friend</string>
+    <string name="undo_delete_button_text">Undo</string>
 
     <string name="greeting_fragment_befriend">Hello! This is the Befriend fragment.</string>
     <string name="greeting_fragment_friends">Hello! This is the Friends fragment.</string>

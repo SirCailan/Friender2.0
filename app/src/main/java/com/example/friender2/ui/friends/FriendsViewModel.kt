@@ -14,7 +14,11 @@ class FriendsViewModel : ViewModel() {
 
     //Friend variables
     var friendsList: MutableLiveData<MutableList<Profile>> = MutableLiveData()
-    var selectedFriend: Profile? = null
+    private var selectedFriend: Profile? = null
+    private var selectedIndexPosition: Int = 0
+
+    //Visibility variables
+    var undoButtonVisible: MutableLiveData<Boolean> = MutableLiveData()
 
     fun getFriendsList() {
         CoroutineScope(Dispatchers.IO).launch {
@@ -33,13 +37,35 @@ class FriendsViewModel : ViewModel() {
 
         friendsList.value?.remove(selectedFriend)
         //Removes current selected friend from list.
+        //Does not trigger the observe function.
+
+        undoButtonVisible.postValue(true)
     }
 
     fun undoRemove() {
         selectedFriend?.let { profile ->
+            //addToListObserved(profile)
+
             CoroutineScope(Dispatchers.IO).launch {
-                repo.undoDelete(profile)
+                repo.saveAsFriend(profile)
             }
         }
+
+        undoButtonVisible.postValue(false)
+    }
+
+    fun selectProfile(profile: Profile, indexPosition: Int) {
+        selectedFriend = profile
+        selectedIndexPosition = indexPosition
+
+        undoButtonVisible.postValue(false)
+    }
+
+    fun getSelectedFriend(): Profile? {
+        return selectedFriend
+    }
+
+    fun getSelectedIndexPosition(): Int {
+        return selectedIndexPosition
     }
 }
